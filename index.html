@@ -1,0 +1,915 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="zhang zhen yang">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>musicplayer</title>
+<!--<script src="js/jquery.min.js"></script>-->
+<script src="js/jquery-1.8.3.js"></script>
+<script src="js/jquery.ui.core.js"></script>
+<script src="js/jquery.ui.widget.js"></script>
+<script src="js/jquery.ui.mouse.js"></script>
+<script src="js/jquery.ui.draggable.js"></script>
+<script src="js/jquery.ui.resizable.js"> </script>
+<link rel="stylesheet" href="css/jquery.ui.resizable.css">
+<link rel="stylesheet" href="css/jquery.ui.theme.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="icon.png">
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	font-family:"宋体","MS Serif", "New York", serif;
+	user-select: none;
+	-webkit-touch-callout: none; 
+	 -webkit-user-select: none; 
+	 -moz-user-select: none;
+	 -ms-user-select:none;
+    -khtml-user-select: none;
+}
+html {
+	font-size: 10px;
+}
+body {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+#kumiko {
+	width: 100%;
+	/*height: 768px;*/
+	margin: 0 auto;
+	
+}
+#front{
+	display:block;
+	position:absolute;
+	width:100%;
+	height:1000px;
+	background:url(images/1.png) rgba(243,243,243,0.7);
+	}
+#kumiko img{
+	position:absolute}
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+#kuvideo {
+	top: 10%;
+	position: absolute;
+	padding: 3px;
+	border: 1px solid gray;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 900px;
+	height: 560px;
+	background-color: rgba(102,102,102,.4);
+	border-radius: 10px 10px 3px 3px;
+	overflow: hidden;
+	
+}
+/*#kuvideo:hover {
+	
+	box-shdow: 0 0 10px 48px rgba(0,0,0,0.9) inset;
+}*/
+#cdround{
+position: absolute;
+width: 200px;
+	height: 200px;
+top:15px;
+right: 15px;
+-webkit-box-reflect:below -5px -webkit-linear-gradient(top,transparent 60%,#fff);
+}
+#bottom {
+	width: 200px;
+	height: 200px;
+	border: 5px solid rgba(153,153,153,0.3);
+	border-radius:50%;
+	box-sizing:border-box;
+	display: block;
+	position: absolute;
+	
+	background-origin:padding-box;
+	background:url(images/13.jpg) no-repeat;
+	background-size:cover ;
+	background-position: center;
+	/*-webkit-background-clip: border-box;
+	-moz-background-clip: border-box;*/
+	background-clip: padding-box;
+	-webkit-animation: round 10s linear 0s infinite normal;
+	animation: round 10s linear 0s infinite normal;
+	animation-play-state:paused;
+	box-shadow:-2px 2px 20px rgba(0,0,0,0.1);
+	
+}
+/*.bottom{animation: round 10s linear 0s infinite normal;}*/
+@keyframes round
+{
+	0%{transform:rotate(0deg)
+	
+	}
+	
+100%{transform:rotate(360deg)
+	
+	}	
+	
+	}
+@-webkit-keyframes round
+{
+	0%{-webkit-transform:rotate(0deg)
+	
+	}
+	
+100%{-webkit-transform:rotate(360deg)
+	
+	}	
+	
+	}
+
+
+#bo {
+	cursor: pointer;
+	position: absolute;
+	border-radius: 4px/50%;
+	left: 3%;
+	bottom: 1.8%;
+	width: 94%;
+	height: 10px;
+	background-color: #ccc;
+	overflow:hidden;
+}
+#bocenter {
+	width: 0%;
+	height: 100%;
+	border-radius: 4px/50%;
+	background-color: #555;
+}
+#bocircle{
+	display:block;
+	width: 15px;
+	height: 10px;
+	border-radius:4px;
+	background-color: #555;
+	float:right;
+	transition:background-color 0.5s;	
+}
+.bocirclehover{
+	background-color:rgba(255,255,255,1);
+	box-shadow:0 0 2px rgba(0,0,0,0.5);
+}
+#word, .icon-tv {
+	cursor:default;
+	display: block;
+	border-radius: 10px 10px 0 0;
+	width: 100%;
+	height: 5%;
+	text-align: center;
+	line-height: 200%;
+	/*color: #333;*/
+	color:rgba(255,255,255,0.5);
+	font-size: 1.7rem;
+	/*font-style: italic;*/
+	font-weight: 700;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: rgba(153,153,153,0.39);
+	box-shadow: 0 0 30px rgba(153,153,153,0.19) inset
+}
+/*{
+display:block;
+position:absolute;
+top:0px;
+left:0px
+}*/
+div .icon-tv {
+	left: 0px;
+	width: 5%;
+	border-radius: 10px 10px 10px 10px;
+	/*color: #06FBFB;*/
+	color:rgb(0,255,255);
+	font-style: normal;
+}
+#word:before {
+	content: "楽:";
+	/*color:rgba(0,255,255,0.7);*/
+	/*font-size:2rem;*/
+	font-style:normal;
+}
+#side {
+	position: absolute;
+	width: 20%;
+	height: 89%;/*border:1px solid gray;*/
+	box-shadow: -1px 1px 12px #999;
+	/*right: 20px*/;
+	bottom: 5.5%;
+	right: 0.4%;
+	background-color: rgba(204,204,204,0.5)
+}
+.icon-menu3, .icon-menu4 {
+	cursor: pointer;
+	position: absolute;
+	right: 1%;
+	top: 1%;
+	font-size: 2rem;
+}
+#display, #display2, #display3, #display4, #display5 {
+	box-sizing: border-box;
+	width: 100%;
+	height: 20%;
+	border: 1px solid rgba(102,102,102,0.2);
+	font-size: 2rem;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-around;
+	position: relative;
+}
+.d1, .d2, .d3, .d4 {
+	cursor:default;
+	display: block;
+	width: 100%;
+	height: 50%;
+	text-align: center;
+	line-height: 200%;
+	font-size: 1.2rem;
+	font-weight: 700;
+	text-shadow: 2px 2px 5px #999
+}
+.disleft, .disright {
+	width: 50%;
+}
+.five1, .five2, .five3 {
+	display: block;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 700;
+	text-shadow: 2px 2px 5px #999
+}
+
+
+span[class^="icon"]:hover {
+	cursor: pointer;
+	color: #FFF;
+	opacity: 0.7
+}
+#playorpause{
+font-size:2.6rem}
+#file{
+	display:none;}
+#musicmenu{
+	width: 250px;
+	height: 400px;/*border:1px solid #000;*/
+	position:absolute;right: 10px;top: 210px;}	
+
+.musicitem{
+	width: 250px;height: 24px;/*border: 1px solid rgba(0,204,204,0.2);*/
+	display:block;
+	position:relative;
+	right:-30px;
+	margin:4px;
+	padding-left:10px;
+	cursor:pointer;
+	color:white;
+	font-weight:600;
+	font-size:14px;
+	border-radius:12px;
+	transition:all 0.4s ease-out;-webkit-transition:all 0.4s ease-out;
+	background-color:rgba(0,0,0,0.7);
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+	line-height:24px;
+	box-shadow:0px 0px 20px rgba(255,255,255,0.5) inset;}	
+.musicitemeven{background:rgba(204,204,204,0.7);color:black;}
+.musicitem:hover{
+	transform:translate(-30px,-2px) scale(0.9,1.05);-webkit-transform:translate(-30px,-2px) scale(0.9,1.05);
+	background-color:rgba(0,255,255,0.7);
+	color:black;font-weight:800;
+	box-shadow:-2px 2px 10px rgba(0,0,0,0.5)
+	}
+#musicmenufirst{
+	/*visibility:hidden;*/
+	display:block;
+	cursor:default;
+	width: 200px;
+	height: 30px;
+	background-color:rgba(204,204,204,0.5);
+	position:relative;/*top: 30px*//*;left:50px;*/
+	/*right:-20px;*/
+	font-size:32px;
+	line-height:30px;
+	font-weight:800;
+	text-align:center;
+	margin:25px auto;
+	transform:rotateX(90deg);-webkit-transform:rotateX(90deg);
+	border-radius:4px;
+	box-shadow:0px 0px 10px rgba(0,0,0,0.5);
+	transition:all 0.5s linear;
+	}
+
+	
+	
+#perspect{
+	perspective:100px;
+	position:relative;
+	right:-50px;
+	-webkit-perspective:100px;
+	width: 200px;
+	height: 30px;
+	margin-bottom:20px;
+	}
+
+
+.musicplayingcolor{
+	background-color:rgba(0,255,255,0.7);
+	color:black;
+	box-shadow:-2px 2px 10px rgba(0,0,0,0.5);
+	 }
+</style>
+</head>
+
+<body>
+<div id="kumiko" > 
+<!--<img class="pic1" src="images/1.jpg" width=100%>
+<img class="pic1" src="images/2.jpg" width=100%>
+<img class="pic1" src="images/3.jpg" width=100%>
+<img class="pic1" src="images/4.jpg" width=100%>
+<img class="pic1" src="images/5.jpg" width=100%>
+<img class="pic1" src="images/6.jpg" width=100%>
+<img class="pic1" src="images/7.jpg" width=100%>
+<img class="pic1" src="images/8.jpg" width=100%>-->
+<img class="pic1" src="images/6.jpg" width=100%>
+<span id="front" width=100%></span>
+  <div id="kuvideo">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <video id="video" src="" width="99.5%" poster="images/13.jpg">
+   </video>
+    
+    
+    
+    
+    
+    
+    
+    <div id="bo">
+      <div id="bocenter"><span id="bocircle"></span></div>
+    </div>
+    <span class="icon-tv"></span> <span id="word"></span> <span id="menu" class="icon-menu3"></span>
+    <div id="side">
+      <div id="display"> <span class="icon-backward"></span> <span id="playorpause" class="icon-play2"></span> <span class="icon-forward2"></span> <!--<span class="icon-stop"></span> --></div>
+      <div id="display2"> <span class="icon-volume-increase"></span> <span class="icon-volume-decrease"></span> <span id="volume" class="icon-volume-high"></span> </div>
+      <div id="display3"> <span class="icon-sun"></span> <span class="icon-contrast"></span> <span class="icon-brightness-contrast"></span> </div>
+      <div id="display4">
+        <div class="disleft"> <span class="d1">当前：00:00</span> <span class="d2">总长：00:00</span></div>
+        <div class="disright"> <span class="d3">音量：</span> <span class="d4">速率：</span> </div>
+      </div>
+      <div id="display5"> 
+        <!-- <span id= "fiv1"class="icon-checkbox-unchecked"></span>
+ <span id="fiv2" class="icon-checkbox-unchecked"></span>
+ <span  id="fiv3"class="icon-checkbox-unchecked"></span>
+  <span id="fiv4" class="icon-checkbox-unchecked"></span>--> 
+  <span id="fiv1" class="icon-radio-checked">&nbsp;F</span> 
+    
+    
+ <span id="fiv2" class="icon-radio-checked2">&nbsp;R</span>
+  <input id="file" type="file" multiple>
+  
+      </div>
+    </div>
+  </div>
+<div id="cdround"> <div id="bottom" class="bottomanime"></div></div>
+
+<div id="musicmenu">
+  <div id="perspect"><span id="musicmenufirst">MUSIC LIST</span></div>
+
+
+</div>
+
+</div>
+<script>
+		
+	
+ 	
+	$(function(){
+	
+	
+	/*function loop(){
+	    nnn++;
+		nnn=nnn%8||1;
+		console.log(nnn);
+		$("img:last").animate({"opacity":"0"},4000,function(){$("img:last").css("opacity","1").attr("src",image+nnn+".jpg").prependTo("#kumiko")
+			
+			
+			})}*//*.queue(function(){$("img:last").css("opacity","1").attr("src",image+nnn+".jpg"),function(){$("img:last").prependTo("#kumiko")}});*/
+		
+		/*.queue($("img:last").prependTo("#kumiko"))*/;
+		/*$("img:first").attr("src",image+nnn+".jpg").css("opacity","1");*/
+		
+
+	
+	/*var $pic=$("img");
+	var nnn=8;
+	var video=document.getElementById("video");
+	function loop(){
+	    nnn--;
+		nnn=nnn==0?7:nnn;
+		console.log(nnn);
+		$pic.eq(nnn).animate({"opacity":"0"},4000);
+			if(nnn==1){
+				$("img:first").animate({"opacity":"1"},4000,function(){
+					$("img").css("opacity","1")
+					
+					})
+				
+				}
+			}	
+	setInterval(loop,8000)*/
+	
+	
+		var $video=$("video");
+			/*$("#bottom").resizable().draggable({
+			aspectRatio: true,
+			handles: "all",
+			
+			});*/
+	/*	$video.bind("canplay",function(){this.play()})*//*.on(function(){console.log($(this).duration)})*/
+	$video.click(function(){
+				/*$video[0].paused?$video[0].play():$video[0].pause();*/
+				
+				$("#playorpause").trigger("click");}
+			)
+	
+	
+	
+	
+	
+	var ono=false;
+		$video.hover(
+		function(){ono=true},
+		function(){ono=false});
+		
+		function aa(e){
+			if(ono){
+			$video[0].paused?$video[0].play():$video[0].pause()
+			}
+			}
+		
+		$("#kuvideo").resizable({
+    aspectRatio: true,
+    handles: "all"
+}
+		).draggable({
+			
+			stop:aa})
+		/*$video.on("timeupdate",function(){
+			if(this.currentTime>1000){
+				this.pause()
+				}else{
+					this.play();
+					}
+				}
+			   )*/
+
+	
+$video.on("ended",function(){
+	$("#playorpause").attr("class","icon-play2");
+	$("#bottom").css("animation-play-state","paused");
+	if($video.data("index")<=$(".musicitem").length){
+		/*alert($video.data("index"));*/
+		$video.attr("src",$(".musicitem").eq(($video.data("index")+1)%$(".musicitem").length).data("src"));
+		$video.data("index",($video.data("index")+1)%$(".musicitem").length);
+		$(".musicitem").eq($video.data("index")%$(".musicitem").length)
+						.addClass("musicplayingcolor")
+						.siblings().removeClass("musicplayingcolor");
+						
+		$("#word").html($(".musicitem").eq($video.data("index")).html());
+		
+		$video[0].play();
+		$("#bottom").css("animation-play-state","running")
+		$("#playorpause").attr("class","icon-pause")
+		
+		}
+	}	)			
+		/*var videopaused=true;
+		function(){$video[0].paused?videopaused=true:viedopaused=false}		*/		
+					
+		$(window).on("keydown",function(e){
+					console.log(e.which);
+					
+					switch (e.which)
+					{   case 13:
+						$video.dblclick();
+						break;
+						case 96:
+						$("#menu").click();
+						break;
+						case 37:
+						$video[0].currentTime-=5;
+						break;
+						case 39:
+						$video[0].currentTime+=5;
+						
+						break;
+						case 61:
+						case 187:
+						$video[0].playbackRate+=.05;
+						console.log($video[0].playbackRate);
+						/*$("#bottom").css("animation","round "+10/$video[0].playbackRate+"s linear 0s infinite normal");*/
+						/*e.preventDefault();*/
+						break;
+						case 173:
+						case 189:
+						$video[0].playbackRate-=.05;
+						console.log($video[0].playbackRate);
+						
+						/*e.preventDefault();*/
+						break;
+						case 32:
+					  /*  $video[0].paused?$video[0].play():$video[0].pause();*/
+						 $("#playorpause").trigger("click");
+						break;
+						case 38:
+						$video[0].volume+=$video[0].volume<0.95?0.05:0;
+						$video[0].volume=$video[0].volume>=0.95?1:$video[0].volume;
+						break;
+						case 40:
+						$video[0].volume-=$video[0].volume>0.05?0.05:0;
+						$video[0].volume=$video[0].volume<=0.05?0:$video[0].volume;
+					    break;
+						
+					}
+					/*if (e.which==32){
+						if(p)
+						{
+							$video[0].pause();
+							p=false;
+							}
+						else{
+							$video[0].play();
+							p=true;
+							}
+						}*/
+				
+						});
+		
+		
+		
+		<!--console.log($video[0].duration);-->
+		
+		$("#bo").click(function(e){
+			/*console.log(e.pageX+"---"+e.clientX);*/
+				$video[0].currentTime=(e.pageX-$(this).offset().left)/this.offsetWidth*$video[0].duration;		
+			$("#bocenter").css("width",(e.clientX-$(this).offset().left)/this.offsetWidth*100+"%")
+			}).hover(function(){
+				$("#bocircle").css("backgroundColor","rgba(255,255,255,1)")
+				},function(){
+				$("#bocircle").css("backgroundColor","#555")
+				});
+		var currentwatch=setInterval(apple,50)
+		function apple()
+		{$("#bocenter").css("width",$video[0].currentTime/$video[0].duration*$("#bo")[0].offsetWidth+"px")}	
+		
+		var boci
+		$("#bocircle").mousedown(function(event){
+			event.stopPropagation();
+			console.log("dowm");
+			/*clearInterval(currentwatch);*/
+			/*boci=setInterval(bocircle,50)*/
+			$("#bo").mousemove(function(e){/*$("#bocenter").css("width",((e.clientX-$("#bo").offset().left)+5)/$("#bo")[0].offsetWidth*100+"%")
+			console.log("move");*/
+			$video[0].currentTime=(e.pageX-$("#bo").offset().left)/$("#bo")[0].offsetWidth*$video[0].duration;		
+			
+				}
+			)
+			});
+			$("*").on("mouseup",function(){
+				console.log("up");
+				$("#bo").off("mousemove");
+				/*setInterval(apple,50);*/
+				})
+		/*function bocircle(){
+				$("#bo").mousemove(function(e){$("#bocenter").css("width",((e.clientX-$("#bo").offset().left)+5)/$("#bo")[0].offsetWidth*100+"%")
+				}
+			)
+			}	*/
+			
+			
+		/*function consl()
+		{console.log($video[0].currentTime)}		
+		setInterval(consl,5000);*/
+		
+		var osition=$video.attr("src");
+		$("#word").text(osition.substring(osition.lastIndexOf("\\")+1));
+		/*$(window).on("mousewheel",function(e){
+			alert(e.detail)
+			})*/
+		/*function add(){alert("hover")};
+		function remove(){alert("out");$(document).find("body").unbind()};
+		$("video").hover(mousewh,remove);*/
+		
+		
+		   $video[0].onmousewheel=function(event){
+			event=event||window.event;
+			/*alert(event.wheelDelta);*/
+			      switch (event.wheelDelta) 
+				      {
+					    case 120:
+						$video[0].volume+=$video[0].volume<0.95?0.05:0;
+						$video[0].volume=$video[0].volume>=0.95?1:$video[0].volume;
+						break;
+						case -120:
+						$video[0].volume-=$video[0].volume>0.05?0.05:0;
+						$video[0].volume=$video[0].volume<=0.05?0:$video[0].volume;
+						break;
+						}
+			
+			}
+			
+			  /* document.body*/$video[0].addEventListener("DOMMouseScroll",function(event){
+				    switch (event.detail) 
+				      {
+					    case -3:
+						$video[0].volume+=$video[0].volume<0.95?0.05:0;
+						$video[0].volume=$video[0].volume>=0.95?1:$video[0].volume;
+						break;
+						case 3:
+						$video[0].volume-=$video[0].volume>0.05?0.05:0;
+						$video[0].volume=$video[0].volume<=0.05?0:$video[0].volume;
+						break;
+						}
+				   
+				   },false)
+				   
+				   
+		
+	
+		
+	
+	$("#menu").toggle(function(){
+		$(this).attr("class","icon-menu4")
+		$("#display").slideDown(270);
+		$("#display2").slideDown(250);
+		$("#display3").slideDown(200);
+		$("#display4").slideDown(100);
+		$("#display4").parent().fadeIn(400);
+		},function(){
+		$(this).attr("class","icon-menu3")
+		$("#display").slideUp(100);
+		$("#display2").slideUp(200);
+		$("#display3").slideUp(250);
+		$("#display4").slideUp(270);
+		$("#display").parent().fadeOut(400);
+		}).trigger("click");
+var ba;
+function backward(){$video[0].currentTime-=5;}
+ $(".icon-backward").mousedown(function(){
+	 ba=setInterval(backward,100)
+	}).mouseup(function(){clearInterval(ba)}).click(backward);
+var fo;
+function forward2(){$video[0].currentTime+=5;}	
+$(".icon-forward2").mousedown(function(){
+	fo=setInterval(forward2,100)
+	}).mouseup(function(){clearInterval(fo)}).click(forward2);	
+	
+ $("#playorpause").click(function(){
+	 				if($video[0].paused){
+						$video[0].play();
+						$(this).attr("class","icon-pause");
+						$("#bottom").css("animation-play-state","running")
+						}else{
+							$video[0].pause();
+							$(this).attr("class","icon-play2");
+							$("#bottom").css("animation-play-state","paused")
+							}
+ 
+ 	}).trigger("click");
+ 
+ $(".icon-stop").click(function(){
+	 if($video.data("srcc")){
+	 $video.attr("src",$video.data("srcc"));
+	 	};
+	 $video[0].load();
+	$video[0].play()
+	 });
+ 
+$(".display2")
+function volumein(){
+	$video[0].volume+=$video[0].volume<0.95?0.05:0;
+	$video[0].volume=$video[0].volume>=0.95?1:$video[0].volume;}
+	var vi;
+function volumeout(){
+	$video[0].volume-=$video[0].volume>0.05?0.05:0;
+	$video[0].volume=$video[0].volume<=0.05?0:$video[0].volume;
+	}
+	var vi2
+$(".icon-volume-increase").mousedown(function(){
+	vi=setInterval(volumein,50)
+	}).mouseup(function(){
+	clearInterval(vi)
+	});
+   
+$(".icon-volume-decrease").mousedown(function(){
+	   vi2=setInterval(volumeout,50)
+	   }).mouseup(function(){
+	clearInterval(vi2)
+				});
+				
+   $("#volume").click(function(){
+	   if($video[0].volume!=0){
+	   $video.data("volume",$video[0].volume);
+	   $video[0].volume=0;
+	 }else{
+		 $video[0].volume=$video.data("volume");
+		/* $video.trigger("volumechange")*/
+		 }
+   });
+  
+
+$(".icon-sun").click(function(){});
+$(".icon-contrast").click(function(){});
+$(".icon-brightness-contrast").click(function(){});
+		
+$video.on("timeupdate",function(){
+	$(".d1").html("当前："+("00"+Math.floor($video[0].currentTime/60)).slice(-2)+":"+("0"+(Math.floor($video[0].currentTime-Math.floor($video[0].currentTime/60)*60))).slice(-2));
+	if($video[0].duration){
+$(".d2").html("总长："+("00"+Math.floor($video[0].duration/60)).slice(-2)+":"+("0"+(Math.floor($video[0].duration-Math.floor($video[0].duration/60)*60))).slice(-2))
+}
+	}).trigger("timeupdate")	;
+/*$(".d3").html("音量：100%");	*/	
+
+$video.on("volumechange",function(){
+	 switch(Math.ceil($video[0].volume*100/20))
+	 {
+	case 0:	$("#volume").attr("class","icon-volume-mute2"); 
+	break;
+	case 1:
+	case 2: $("#volume").attr("class","icon-volume-low");
+	break;
+	case 3:
+    case 4: $("#volume").attr("class","icon-volume-medium");
+	break;
+    case 5: $("#volume").attr("class","icon-volume-high");
+    break;
+		 };
+	$(".d3").html("音量："+Math.round($video[0].volume*100)+"%")	
+	}).trigger("volumechange")	;
+		
+/*$(".d4").html("速率：100%")	;*/	
+$video.on("ratechange",function(){
+	$("#bottom").css("animation","round "+10/$video[0].playbackRate+"s linear 0s infinite normal");
+	$(".d4").html("速率："+Math.round($video[0].playbackRate*100)+"%")	
+	}).trigger("ratechange");	
+		
+var fontsiz	
+$("#kuvideo").on("resize",function(){
+	 fontsiz=$("#kuvideo")[0].offsetWidth;
+	 /*alert(fontsiz);*/
+	switch (Math.floor(fontsiz/100))
+	{
+		
+		case 1:$("html").css("fontSize","0.5px");
+		break;
+		case 2:$("html").css("fontSize","1px");
+		break;
+		case 3:$("html").css("fontSize","2px");
+		break;
+		case 4:$("html").css("fontSize","3px");
+		break;
+		case 5:$("html").css("fontSize","5px");
+		break;
+		case 6:$("html").css("fontSize","7px");
+		break;
+		case 7:$("html").css("fontSize","8px");
+		break;
+		case 8:$("html").css("fontSize","9px");
+		break;
+		case 9:$("html").css("fontSize","10px");
+		break;
+		case 10:$("html").css("fontSize","11px");
+		break;
+		case 11:$("html").css("fontSize","12px");
+		break;
+		case 12:$("html").css("fontSize","13px");
+		break;
+		
+		case 13:$("html").css("fontSize","15px");
+		break;
+		}
+	})
+	
+	var tem=true;		
+$video.dblclick(function(){
+	if(tem){
+	$(this).css({"position":"fixed","top":"0px","left":"0px","width":"100%"})
+	$("#kuvideo").css({"width":/*$(document).width()*/0+"px","height":/*$(document).height()*/0+"px"})
+	$("#kuvideo").find(":not(#video)").css("display","none")
+	tem=false;$("#kuvideo").trigger("resize");
+	/*$("#bottom").hide();*/
+	}else{
+		$(this).css("position","relative")
+		$("#kuvideo").css({"width":900+"px","height":560+"px"})
+		$("#kuvideo").trigger("resize");
+		tem=true;
+		$("#kuvideo").find("*").show()/*css("display","block")*/
+		$(".icon-menu3").trigger("click");
+		$("#file").css("display","none");
+		$("#bottom").show();
+		}
+		
+		});
+	
+	
+	
+$video.data("srcc",$video.attr("src"));	
+	
+$("#fiv2").click(function(){
+	
+		var file=document.getElementById("file").files[0];
+		var rr=new FileReader();
+         rr.readAsDataURL(file);
+		if(/image\/\w+/.test(file.type))
+		 {rr.onload=function()
+		 {  $video.attr("poster",rr.result) ;
+		 $("#bottom").css("background-image","url("+rr.result+")");
+			 
+			 }
+		 
+		 }else　if(/audio\/\w+/.test(file.type))
+		 {
+			 
+		 /*$("#bottom").css("animation-play-state","paused");*/
+		$(".musicitem").remove();
+		
+			for(var n=0;n<$("#file")[0].files.length;n++){
+				/*alert($("#file")[0].files[0].type);*/
+				/*$(".musicitem:first").clone().html($("#file")[0].files[n].name).appendTo("#musicmenu");*/
+				(function(value){var rra=new FileReader();
+				rra.readAsDataURL($("#file")[0].files[value]);
+				rra.onload=function(){	
+				
+				/*$(".musicitem:first").clone()*/
+				$('<span class="musicitem"></span>')
+				.html($("#file")[0].files[value].name)
+				.data("src",rra.result).appendTo("#musicmenu");
+				
+				$(".musicitem").filter(":nth-child(even)").addClass("musicitemeven");
+				
+				$(".musicitem").click(function(){
+					$(this).addClass("musicplayingcolor")
+							.siblings().removeClass("musicplayingcolor");
+					$("#word").html($(this).html());
+					 /*alert($(this).index(".musicitem"));*/
+					$video.attr("src",$(this).data("src"))
+						  .data("index",$(this).index(".musicitem"));
+			 		$video[0].play();
+			 		 $("#bottom").css("animation-play-state","running")
+			 		 $("#playorpause").attr("class","icon-pause")
+					})
+				}
+				})(n)
+				
+				}
+				
+				
+			/*rr.onload=function(){
+			$video.attr("src",rr.result);
+			 $video[0].play();
+			  $("#bottom").css("animation-play-state","running")
+			 $("#playorpause").attr("class","icon-pause")}*/
+			 }else{
+				 alert("不支持的格式,请选择图片或mp3格式")
+				 };
+	}
+	);
+	
+$("#perspect").hover(function(){$("#musicmenufirst").css("transform","rotateX(10deg)")},function(){$("#musicmenufirst").css("transform","rotateX(90deg)")})
+$("#fiv1").click(function(){
+	$("#file").click();
+	
+	})
+
+/*var $musicmenu="<div><div>"*/
+
+$video[0].pause();
+$("#bottom").css("animation-play-state","paused")
+ $("#playorpause").attr("class","icon-play2");
+ 
+	})	
+ 
+ </script>
+</body>
+</html>
