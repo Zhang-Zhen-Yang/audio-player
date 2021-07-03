@@ -187,6 +187,7 @@
 
     <script src="./js/jquery-1.8.3.js"></script>
     <script>
+        // 下载文件
         function openDownloadDialog(url, saveName) {
             if(typeof url == 'object' && url instanceof Blob)
             {
@@ -204,6 +205,7 @@
             }
             aLink.dispatchEvent(event);
         }
+        // 当前日期
         function getDate () {
             let date = new Date();
             let year = date.getFullYear();
@@ -239,7 +241,6 @@
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
-
             var btnSave = $('.btn-save');
             var btnClear = $('.btn-clear');
             var inputL = $('.user-list-input');
@@ -270,7 +271,7 @@
             });
 
 
-            var isDrawing = false;
+            var isDrawing = false;// 是否正在抽奖中
             $('.choujiang').on('click', function(){
                 if(isDrawing) {
                     toast('正在抽奖中', 'notice', 1500);
@@ -287,8 +288,8 @@
                     toast('抽奖名单不能为空', 'notice', 1500);
                     return;
                 }
-                //选取3-5秒的时间
-                var showT = getRandom(2,3) * 1000;
+                //选取3-4秒的时间
+                var showT = Math.ceil((Math.random() + 3) * 1000);
                 var now = Date.now();
 
                 var startDraw = function() {
@@ -296,6 +297,7 @@
                     var user = val[userIndex];
                     currentUser.text(user);
                     if(Date.now() - now >= showT) {
+
                         inputL.val(val.filter(function(item){return item != user}).join('\n'));
                         inputR.val(user+'\n'+inputR.val());
                         setUserCount();
@@ -306,7 +308,6 @@
                 }
                 isDrawing = true;
                 startDraw();
-
 
             })
 
@@ -324,28 +325,29 @@
         })
     </script>
     <script>
-/* 
-        
-        // 下滑
+
+        /* 
+        // 下滑加载更多内空
         function myScroll() {
-            var bodyH = $('body').height();
+            var bodyH = document.body.clientHeight;
             window.scroll(0, bodyH);
 
             // 评论加载完成
-            if($('.loading-state').text() == "没有更多评论"){
-                myDraw();
+            // console.log(document.getElementsByClassName('loading-state')[0].innerText)
+            if(document.getElementsByClassName('loading-state')[0].innerText == "没有更多评论"){
+                getCommentList();
             } else {
                 setTimeout(function(){myScroll()}, 500);
             }
         } 
         myScroll();
-        function myDraw() {
+        function getCommentList() {
             var comment = 0;
             var set = new Set();
-            $('.comment-list .list-item').find('.user').each(function(index, item){
-                var $item = $(item);
-                
-                var nick = $(item).children().eq(0).text();
+            var commentList = document.getElementsByClassName('comment-list')[0];
+            commentList.getElementsByClassName('user').forEach(function(item, index){
+               
+                var nick = item.getElementsByTagName('a')[0].innerText;
                 set.add(nick);
                 comment += 1;
                 console.log(nick);
@@ -366,8 +368,8 @@
             console.log(getRandom(0,10));
             // https://choujiang.bmcx.com/
         }
-         */
-
+         
+ */
 
 
          /*
